@@ -1,4 +1,4 @@
-
+The Html index.html should be in a folder named templates in same directory/folder
 Termux Setup Instructions for Running ip.py with Serveo
 =======================================================
 
